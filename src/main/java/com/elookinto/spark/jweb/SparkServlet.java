@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.elookinto.spark.web;
+package com.elookinto.spark.jweb;
 
 import java.io.IOException;
 import java.io.PrintWriter;
