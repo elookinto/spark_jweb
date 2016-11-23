@@ -29,11 +29,13 @@
             String _CONNECTION_URL = "jdbc:derby:derbyDB";
             String driver = "org.apache.derby.jdbc.EmbeddedDriver";
 
+            
             Class.forName(driver)
                     .newInstance();
             Dataset<Row> jdbcDF
                     = sparkSession.read()
                     .jdbc(_CONNECTION_URL, dbTable, connectionProperties);
+            jdbcDF.createTempView("t1");
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             //System.setErr(new PrintStream(baos));
             //jdbcDF.foreach(r->{ out.println(r.getInt(0));});

@@ -6,12 +6,32 @@
         java.io.*,
         scala.tools.nsc.GenericRunnerSettings,
         com.elookinto.spark.jweb.*"
-        
+
         %>
 
-<%
-     SparkSession sparkSession = SparkLocalServlet.sparkSession;
-      
-     
-    
-%>
+<html>
+
+    <body>
+        <% String sql = request.getParameter("sql");
+            if (sql == null || sql.trim().length() == 0) {
+                sql = "select 3 as dummy";
+            }
+        %>
+
+
+
+
+        <%
+            SparkSession sparkSession = SparkLocalServlet.sparkSession;
+            PrintStream ps = new PrintStream(response.getOutputStream());
+            System.setOut(ps);
+            ps.append("<form> Sample: <input name='sql' value='" + sql + "' /> <input type='Submit'  /> </form>");
+            ps.append(sql + "</br>");
+            ps.print("<pre>");
+            sparkSession.sql(sql).show();
+            ps.print("</pre>");
+            System.setOut(System.out);
+        %>
+
+    </body>
+</html>

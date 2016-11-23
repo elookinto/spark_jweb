@@ -18,12 +18,11 @@
         <title>Cassandra Demo</title>
     </head>
     <body>
-        <h1>Cassandra Demo !</h1>
+        <h1>Cassandra Demo!</h1>
         <%
 
             SparkSession sparkSession = SparkLocalServlet.sparkSession;
             final java.util.Properties connectionProperties = new java.util.Properties();
-
             final String dbTable = "sql_demo";
             String _CONNECTION_URL = "jdbc:cassandra://**.com/test?loadbalancing=DCAwareRoundRobinPolicy(%22datacenter1%22)";
 
