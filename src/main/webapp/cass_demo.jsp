@@ -9,33 +9,33 @@
         import="org.apache.spark.sql.SparkSession,
         org.apache.spark.sql.*,
         java.io.*,
-        com.elookinto.spark.web.*"
+        com.elookinto.spark.jweb.*"
         %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Cassandra Demo</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Cassandra Demo !</h1>
         <%
-            out.println(this.getServletContext().getAttribute("now"));
-            SparkSession sparkSession = SparkServlet.sparkSession;
+
+            SparkSession sparkSession = SparkLocalServlet.sparkSession;
             final java.util.Properties connectionProperties = new java.util.Properties();
 
             final String dbTable = "sql_demo";
-            String _CONNECTION_URL = "jdbc:cassandra://ulpd326.madc.att.com/test?loadbalancing=DCAwareRoundRobinPolicy(%22datacenter1%22)";
+            String _CONNECTION_URL = "jdbc:cassandra://**.com/test?loadbalancing=DCAwareRoundRobinPolicy(%22datacenter1%22)";
 
             Dataset<Row> jdbcDF
                     = sparkSession.read()
-                    .jdbc(_CONNECTION_URL, dbTable, connectionProperties);
+                            .jdbc(_CONNECTION_URL, dbTable, connectionProperties);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             //System.setErr(new PrintStream(baos));
             //jdbcDF.foreach(r->{ out.println(r.getInt(0));});
             java.util.List<Row> list = jdbcDF.collectAsList();
-            for(Row r:list) {
-                out.print(r.get(0) +"<br/>");
+            for (Row r : list) {
+                out.print(r.get(0) + "<br/>");
             }
             jdbcDF.show();
             out.println(baos);

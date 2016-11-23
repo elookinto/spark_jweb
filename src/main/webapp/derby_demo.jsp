@@ -9,25 +9,24 @@
         import="org.apache.spark.sql.SparkSession,
         org.apache.spark.sql.*,
         java.io.*,
-        com.elookinto.spark.web.*"
+        com.elookinto.spark.jweb.*"
         %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Derby Spark Query demo </title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Spark Derby Demo</h1>
         <%
             out.println(this.getServletContext().getAttribute("now"));
             out.println("====<br/>");
-            SparkSession sparkSession = SparkServlet.sparkSession;
+            SparkSession sparkSession = SparkLocalServlet.sparkSession;
             final java.util.Properties connectionProperties = new java.util.Properties();
 
             final String dbTable = "t1";
-            String _CONNECTION_URL = "jdbc:derby:derbyDB;create=true";
-
+            String _CONNECTION_URL = "jdbc:derby:derbyDB";
             String driver = "org.apache.derby.jdbc.EmbeddedDriver";
 
             Class.forName(driver)
@@ -39,8 +38,9 @@
             //System.setErr(new PrintStream(baos));
             //jdbcDF.foreach(r->{ out.println(r.getInt(0));});
             java.util.List<Row> list = jdbcDF.collectAsList();
-            for(Row r:list) {
-                out.print(r.get(0) +"<br/>");
+            
+            for(int i=0; i<10; i++) {
+                out.print(list.get(i).get(0) +"<br/>");
             }
             jdbcDF.show();
             out.println(baos);

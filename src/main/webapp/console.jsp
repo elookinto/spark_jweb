@@ -5,12 +5,13 @@
         org.apache.spark.sql.*,
         java.io.*,
         scala.tools.nsc.GenericRunnerSettings,
-        com.elookinto.spark.web.*"
+        com.elookinto.spark.jweb.*"
         
         %>
 
 <%
-     SparkSession sparkSession = SparkServlet.sparkSession;
-      GenericRunnerSettings s= new GenericRunnerSettings( System.out ); 
+     SparkSession sparkSession = SparkLocalServlet.sparkSession;
+      
+     
     
 %>

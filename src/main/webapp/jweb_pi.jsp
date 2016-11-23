@@ -4,14 +4,14 @@
     Author     : zw251y
 --%>
 
-<%@page import="com.elookinto.spark.jweb.SparkServlet"%>
+<%@page import="com.elookinto.spark.jweb.SparkLocalServlet"%>
 <%@page import="com.elookinto.spark.jweb.JavaSparkPi"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Demo PI</title>
     </head>
     <body>
         <% String sample = request.getParameter("sample");
@@ -23,9 +23,6 @@
             Sample: <input name="sample" value="<%=sample%>" />
             <input type="Submit"  />
         </form>
-        <h1> Spark PI is: pi is roughly <%= JavaSparkPi.getPi(new String[]{}, SparkServlet.sparkSession) %> </h1>
-        <form>
-            
-        </form>
+        <h1> Spark PI is: pi is roughly <%= JavaSparkPi.getPi(new String[]{}, SparkLocalServlet.sparkSession) %> </h1>
     </body>
 </html>
