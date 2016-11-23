@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.elookinto.spark.jweb;
 
 import java.io.IOException;
@@ -17,7 +13,7 @@ import org.apache.spark.sql.SparkSession;
  *
  * @author Paul Z. Wu <zwu.net@elookinto.com>
  */
-public class SparkServlet extends HttpServlet {
+public class SparkLocalServlet extends HttpServlet {
 
     public static SparkSession sparkSession;
 

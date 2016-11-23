@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.elookinto.spark.jweb;
 
 import org.apache.spark.api.java.JavaRDD;
@@ -27,75 +26,76 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Computes an approximation to pi
- * Usage: JavaSparkPi [slices]
+ * Computes an approximation to pi Usage: JavaSparkPi [slices]
+ * 
+ *  modified by Paul Z. Wu
  */
 public final class JavaSparkPi {
 
-    
-   public static double getPi(String args[], SparkSession spark) {
-       JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
+    public static double getPi(String args[], SparkSession spark) {
+        JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
 
-    int slices = (args.length == 1) ? Integer.parseInt(args[0]) : 2;
-    int n = 100000 * slices;
-    List<Integer> l = new ArrayList<>(n);
-    for (int i = 0; i < n; i++) {
-      l.add(i);
+        int slices = (args.length == 1) ? Integer.parseInt(args[0]) : 2;
+        int n = 100000 * slices;
+        List<Integer> l = new ArrayList<>(n);
+        for (int i = 0; i < n; i++) {
+            l.add(i);
+        }
+
+        JavaRDD<Integer> dataSet = jsc.parallelize(l, slices);
+
+        int count = dataSet.map(new Function<Integer, Integer>() {
+            @Override
+            public Integer call(Integer integer) {
+                double x = Math.random() * 2 - 1;
+                double y = Math.random() * 2 - 1;
+                return (x * x + y * y < 1) ? 1 : 0;
+            }
+        }).reduce(new Function2<Integer, Integer, Integer>() {
+
+            @Override
+            public Integer call(Integer integer, Integer integer2) {
+                return integer + integer2;
+            }
+        });
+        return 4.0 * count / n;
+
     }
 
-    JavaRDD<Integer> dataSet = jsc.parallelize(l, slices);
+    public static void main(String[] args) throws Exception {
+        SparkSession spark = SparkSession
+                .builder()
+                .appName("JavaSparkPi")
+                .getOrCreate();
 
-    int count = dataSet.map(new Function<Integer, Integer>() {
-      @Override
-      public Integer call(Integer integer) {
-        double x = Math.random() * 2 - 1;
-        double y = Math.random() * 2 - 1;
-        return (x * x + y * y < 1) ? 1 : 0;
-      }
-    }).reduce(new Function2<Integer, Integer, Integer>() {
-      
- @Override
-      public Integer call(Integer integer, Integer integer2) {
-        return integer + integer2;
-      }
-    });
-    return  4.0 * count / n;
+        JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
 
-   }
-  public static void main(String[] args) throws Exception {
-    SparkSession spark = SparkSession
-      .builder()
-      .appName("JavaSparkPi")
-      .getOrCreate();
+        int slices = (args.length == 1) ? Integer.parseInt(args[0]) : 2;
+        int n = 100000 * slices;
+        List<Integer> l = new ArrayList<>(n);
+        for (int i = 0; i < n; i++) {
+            l.add(i);
+        }
 
-    JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
+        JavaRDD<Integer> dataSet = jsc.parallelize(l, slices);
 
-    int slices = (args.length == 1) ? Integer.parseInt(args[0]) : 2;
-    int n = 100000 * slices;
-    List<Integer> l = new ArrayList<>(n);
-    for (int i = 0; i < n; i++) {
-      l.add(i);
+        int count = dataSet.map(new Function<Integer, Integer>() {
+            @Override
+            public Integer call(Integer integer) {
+                double x = Math.random() * 2 - 1;
+                double y = Math.random() * 2 - 1;
+                return (x * x + y * y < 1) ? 1 : 0;
+            }
+        }).reduce(new Function2<Integer, Integer, Integer>() {
+
+            @Override
+            public Integer call(Integer integer, Integer integer2) {
+                return integer + integer2;
+            }
+        });
+
+        System.out.println("Pi is roughly " + 4.0 * count / n);
+
+        spark.stop();
     }
-
-    JavaRDD<Integer> dataSet = jsc.parallelize(l, slices);
-
-    int count = dataSet.map(new Function<Integer, Integer>() {
-      @Override
-      public Integer call(Integer integer) {
-        double x = Math.random() * 2 - 1;
-        double y = Math.random() * 2 - 1;
-        return (x * x + y * y < 1) ? 1 : 0;
-      }
-    }).reduce(new Function2<Integer, Integer, Integer>() {
-      
- @Override
-      public Integer call(Integer integer, Integer integer2) {
-        return integer + integer2;
-      }
-    });
-
-    System.out.println("Pi is roughly " + 4.0 * count / n);
-
-    spark.stop();
-  }
 }
