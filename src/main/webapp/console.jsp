@@ -24,13 +24,15 @@
         <%
             SparkSession sparkSession = SparkLocalServlet.sparkSession;
             PrintStream ps = new PrintStream(response.getOutputStream());
+            PrintStream stdout = System.out;
+            
             System.setOut(ps);
             ps.append("<form> Sample: <input name='sql' value='" + sql + "' /> <input type='Submit'  /> </form>");
             ps.append(sql + "</br>");
             ps.print("<pre>");
             sparkSession.sql(sql).show();
             ps.print("</pre>");
-            System.setOut(System.out);
+            System.setOut(stdout);
         %>
 
     </body>
