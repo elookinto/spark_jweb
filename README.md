@@ -8,6 +8,6 @@ data stores, but the creator has not seen any one combine it with Web Applicatio
 - How Spark SQL works with Hive in Java Web application
 - How Spark SQL Works with Cassandra (Some tricks will be detailed) in Java Web application
 
-
+Test website: http://spark-jweb.elookinto.com:8080/spark-jweb/
 [//]: # (addons)
 [//]: # (end addons)
