@@ -7,55 +7,17 @@ package com.elookinto.spark.jweb;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
-import java.util.Properties;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.spark.sql.SparkSession;
+import scala.tools.scalap.Main;
 
 /**
  *
- * @author Paul Z. Wu <zwu.net@elookinto.com>
+ * @author Paul Z. Wu <zhou.wu@att.com>
  */
-@WebServlet(name = "SparkHadoopServlet", urlPatterns = {"/SparkHadoopServlet"})
-public class SparkHadoopServlet extends HttpServlet {
-    
-    public static SparkSession sparkSession;
-    
-    @Override
-    public void init() throws ServletException {
-        super.init(); //To change body of generated methods, choose Tools | Templates.
-        this.getServletContext().setAttribute("now", new java.util.Date());
-        System.out.println(this.getServletContext().getAttribute("now"));
-        Properties SparkHadoopConf = new Properties();
-        try {
-            SparkHadoopConf.load(this.getClass().getResourceAsStream("/spark-web.conf"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        sparkSession = SparkSession.builder()
-                .config("spark.sql.warehouse.dir", "file:///tmp")
-                .appName("Spark2JdbcDs").getOrCreate();
-        Enumeration e = SparkHadoopConf.keys();
-        while (e.hasMoreElements()) {
-            Object o = e.nextElement();
-            sparkSession.conf().set(e.toString(), SparkHadoopConf.getProperty(o.toString()));
-        }
-        try {
-            Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-        } catch (Exception ee) {
-            //throw new ServletException(e);
-        }
-    }
-    
-    @Override
-    public void destroy() {
-        super.destroy(); //To change body of generated methods, choose Tools | Templates.
-        sparkSession.stop();
-    }
+public class SparkShellServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -74,10 +36,10 @@ public class SparkHadoopServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SparkServlet</title>");
+            out.println("<title>Servlet SparkShellServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SparkServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SparkShellServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -122,4 +84,5 @@ public class SparkHadoopServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+   
 }

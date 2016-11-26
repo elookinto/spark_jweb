@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.jdbc.JdbcDialects;
 
 /**
  *   
@@ -25,6 +26,9 @@ import org.apache.spark.sql.SparkSession;
 @WebServlet(name = "SparkClientServlet", urlPatterns = {"/SparkClientServlet"})
 public class SparkClientServlet extends HttpServlet {
 
+     static {
+        JdbcDialects.registerDialect(new ElookintoCassandraDialect());
+    }
     public static SparkSession sparkSession;
 
     @Override

@@ -22,7 +22,7 @@
 
 
         <%
-            SparkSession sparkSession = SparkLocalServlet.sparkSession;
+            SparkSession sparkSession = SparkLocalServlet.sparkSession.newSession();
             PrintStream ps = new PrintStream(response.getOutputStream());
             PrintStream stdout = System.out;
             

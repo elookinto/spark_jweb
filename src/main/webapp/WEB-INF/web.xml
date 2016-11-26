@@ -5,9 +5,17 @@
         <servlet-class>com.elookinto.spark.jweb.SparkLocalServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>SparkShellServlet</servlet-name>
+        <servlet-class>com.elookinto.spark.jweb.SparkShellServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SparkLocalServlet</servlet-name>
         <url-pattern>/SparkLocalServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SparkShellServlet</servlet-name>
+        <url-pattern>/SparkShellServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
