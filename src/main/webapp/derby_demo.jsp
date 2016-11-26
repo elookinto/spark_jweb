@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"
 
-        import="org.apache.spark.sql.spark,
+        import="
         org.apache.spark.sql.*,
         java.io.*,
         com.elookinto.spark.jweb.*"
@@ -22,7 +22,7 @@
         <%
             out.println(this.getServletContext().getAttribute("now"));
             out.println("====<br/>");
-            spark spark = SparkLocalServlet.spark;
+            SparkSession spark = SparkLocalServlet.spark;
             final java.util.Properties connectionProperties = new java.util.Properties();
 
             final String dbTable = "t1";

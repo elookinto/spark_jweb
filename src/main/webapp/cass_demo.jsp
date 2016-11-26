@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"
 
-        import="org.apache.spark.sql.spark,
+        import="
         org.apache.spark.sql.*,
         java.io.*,
         com.elookinto.spark.jweb.*"
@@ -29,7 +29,7 @@
         </pre>
         <%
 
-            spark spark = SparkLocalServlet.spark;
+            SparkSession spark = SparkLocalServlet.spark;
             spark.read().format("org.apache.spark.sql.cassandra")
                     .option("keyspace", "test")
                     .option("table", "cass_test")

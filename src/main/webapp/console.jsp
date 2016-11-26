@@ -1,7 +1,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"
 
-        import="org.apache.spark.sql.spark,
+        import="
         org.apache.spark.sql.*,
         java.io.*,
         scala.tools.nsc.GenericRunnerSettings,
@@ -19,7 +19,7 @@
         %>
 
         <%
-            spark spark = SparkLocalServlet.spark;
+             SparkSession spark = SparkLocalServlet.spark;
             PrintStream ps = new PrintStream(response.getOutputStream());
             PrintStream stdout = System.out;
             synchronized(spark) {
