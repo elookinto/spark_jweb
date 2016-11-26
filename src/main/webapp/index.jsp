@@ -13,6 +13,7 @@
         <title>Index</title>
     </head>
     <body>
+        Click the jsp to test.
         <%
             File jsp = new File(request.getSession().getServletContext().getRealPath(request.getServletPath()));
             File dir = jsp.getParentFile();
