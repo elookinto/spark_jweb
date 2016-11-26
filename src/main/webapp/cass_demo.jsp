@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"
 
-        import="org.apache.spark.sql.SparkSession,
+        import="org.apache.spark.sql.spark,
         org.apache.spark.sql.*,
         java.io.*,
         com.elookinto.spark.jweb.*"
@@ -19,24 +19,31 @@
     </head>
     <body>
         <h1>Cassandra Demo!</h1>
+         Do....
+        <pre>
+        
+            cqlsh> CREATE KEYSPACE test WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
+            cqlsh> create table test.cass_test (id int primary key, s text);
+            cqlsh> insert into test.cass_test (id, s)  values (1, 'test');
+
+        </pre>
         <%
 
-            SparkSession sparkSession = SparkLocalServlet.sparkSession;
-            final java.util.Properties connectionProperties = new java.util.Properties();
-            final String dbTable = "sql_demo";
-            String _CONNECTION_URL = "jdbc:cassandra://**.com/test?loadbalancing=DCAwareRoundRobinPolicy(%22datacenter1%22)";
+            spark spark = SparkLocalServlet.spark;
+            spark.read().format("org.apache.spark.sql.cassandra")
+                    .option("keyspace", "test")
+                    .option("table", "cass_test")
+                    .load()
+                    .createOrReplaceTempView("cass_test");
 
-            Dataset<Row> jdbcDF
-                    = sparkSession.read()
-                            .jdbc(_CONNECTION_URL, dbTable, connectionProperties);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             //System.setErr(new PrintStream(baos));
             //jdbcDF.foreach(r->{ out.println(r.getInt(0));});
-            java.util.List<Row> list = jdbcDF.collectAsList();
+            java.util.List<Row> list = spark.sql("select * from cass_test").collectAsList();
             for (Row r : list) {
-                out.print(r.get(0) + "<br/>");
+                out.print(r.get(0) + " " + r.get(1) + "<br/>");
             }
-            jdbcDF.show();
+
             out.println(baos);
             //out.println("nice "  + ds.first().get(0));
 

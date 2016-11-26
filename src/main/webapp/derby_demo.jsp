@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"
 
-        import="org.apache.spark.sql.SparkSession,
+        import="org.apache.spark.sql.spark,
         org.apache.spark.sql.*,
         java.io.*,
         com.elookinto.spark.jweb.*"
@@ -22,7 +22,7 @@
         <%
             out.println(this.getServletContext().getAttribute("now"));
             out.println("====<br/>");
-            SparkSession sparkSession = SparkLocalServlet.sparkSession;
+            spark spark = SparkLocalServlet.spark;
             final java.util.Properties connectionProperties = new java.util.Properties();
 
             final String dbTable = "t1";
@@ -33,15 +33,15 @@
             Class.forName(driver)
                     .newInstance();
             Dataset<Row> jdbcDF
-                    = sparkSession.read()
+                    = spark.read()
                     .jdbc(_CONNECTION_URL, dbTable, connectionProperties);
-            jdbcDF.createTempView("t1");
+            jdbcDF.createOrReplaceTempView("t1");
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             //System.setErr(new PrintStream(baos));
             //jdbcDF.foreach(r->{ out.println(r.getInt(0));});
             java.util.List<Row> list = jdbcDF.collectAsList();
             
-            for(int i=0; i<10; i++) {
+            for(int i=0; i<Math.min(10, list.size()); i++) {
                 out.print(list.get(i).get(0) +"<br/>");
             }
             jdbcDF.show();

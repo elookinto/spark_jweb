@@ -17,14 +17,14 @@ import org.apache.spark.sql.SparkSession;
 @WebServlet(name = "SparkLocalServlet", urlPatterns = {"/SparkLocalServlet"})
 public class SparkLocalServlet extends HttpServlet {
 
-    public static SparkSession sparkSession;
+    public static SparkSession spark;
 
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
         this.getServletContext().setAttribute("now", new java.util.Date());
         System.out.println(this.getServletContext().getAttribute("now"));
-        sparkSession = SparkSession.builder().config("spark.sql.warehouse.dir", "file:///tmp").master("local[*]").appName("Spark2JdbcDs").getOrCreate();
+        spark = SparkSession.builder().config("spark.sql.warehouse.dir", "file:///tmp").master("local[*]").appName("Spark2JdbcDs").getOrCreate();
       try {
         Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
       } catch(Exception e) {
@@ -35,7 +35,7 @@ public class SparkLocalServlet extends HttpServlet {
     @Override
     public void destroy() {
         super.destroy(); //To change body of generated methods, choose Tools | Templates.
-        sparkSession.stop();
+        spark.stop();
     }
 
     /**

@@ -23,6 +23,6 @@
             Sample: <input name="sample" value="<%=sample%>" />
             <input type="Submit"  />
         </form>
-        <h1> Spark PI is: pi is roughly <%= JavaSparkPi.getPi(new String[]{}, SparkLocalServlet.sparkSession) %> </h1>
+        <h1> Spark PI is: pi is roughly <%= JavaSparkPi.getPi(new String[]{}, SparkLocalServlet.spark) %> </h1>
     </body>
 </html>
