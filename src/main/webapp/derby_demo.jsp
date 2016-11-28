@@ -23,30 +23,32 @@
             out.println(this.getServletContext().getAttribute("now"));
             out.println("====<br/>");
             SparkSession spark = SparkSessionPool.POOL.borrowObject();
-            final java.util.Properties connectionProperties = new java.util.Properties();
+            try {
+                final java.util.Properties connectionProperties = new java.util.Properties();
 
-            final String dbTable = "t1";
-            String _CONNECTION_URL = "jdbc:derby:derbyDB";
-            String driver = "org.apache.derby.jdbc.EmbeddedDriver";
+                final String dbTable = "t1";
+                String _CONNECTION_URL = "jdbc:derby:derbyDB";
+                String driver = "org.apache.derby.jdbc.EmbeddedDriver";
 
-            
-            Class.forName(driver)
-                    .newInstance();
-            Dataset<Row> jdbcDF
-                    = spark.read()
-                    .jdbc(_CONNECTION_URL, dbTable, connectionProperties);
-            jdbcDF.createOrReplaceTempView("t1");
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            //System.setErr(new PrintStream(baos));
-            //jdbcDF.foreach(r->{ out.println(r.getInt(0));});
-            java.util.List<Row> list = jdbcDF.collectAsList();
-            
-            for(int i=0; i<Math.min(10, list.size()); i++) {
-                out.print(list.get(i).get(0) +"<br/>");
+                Class.forName(driver)
+                        .newInstance();
+                Dataset<Row> jdbcDF
+                        = spark.read()
+                                .jdbc(_CONNECTION_URL, dbTable, connectionProperties);
+                jdbcDF.createOrReplaceTempView("t1");
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                //System.setErr(new PrintStream(baos));
+                //jdbcDF.foreach(r->{ out.println(r.getInt(0));});
+                java.util.List<Row> list = jdbcDF.collectAsList();
+
+                for (int i = 0; i < Math.min(10, list.size()); i++) {
+                    out.print(list.get(i).get(0) + "<br/>");
+                }
+                jdbcDF.show();
+                out.println(baos);
+            } finally {
+                SparkSessionPool.POOL.returnObject(spark);
             }
-            jdbcDF.show();
-            out.println(baos);
-            SparkSessionPool.POOL.returnObject(spark);
             //out.println("nice "  + ds.first().get(0));
 
         %>
