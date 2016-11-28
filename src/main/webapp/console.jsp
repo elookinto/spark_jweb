@@ -19,18 +19,18 @@
         %>
 
         <%
-             SparkSession spark = SparkLocalServlet.spark;
+            SparkSession spark = SparkSessionFactory.spark;
             PrintStream ps = new PrintStream(response.getOutputStream());
             PrintStream stdout = System.out;
-            synchronized(spark) {
-            System.setOut(ps);
-            ps.append("<form> Sample: <input name='sql' value='" + sql + "' /> <input type='Submit'  /> </form>");
-            ps.append(sql + "</br>");
-            ps.print("<pre>");
-            spark.sql(sql).show();
-            ps.print("</pre>");
-            System.setOut(stdout);
-        }
+            synchronized (spark) {
+                System.setOut(ps);
+                ps.append("<form> Sample: <input name='sql' value='" + sql + "' /> <input type='Submit'  /> </form>");
+                ps.append(sql + "</br>");
+                ps.print("<pre>");
+                spark.sql(sql).show();
+                ps.print("</pre>");
+                System.setOut(stdout);
+            }
         %>
 
     </body>

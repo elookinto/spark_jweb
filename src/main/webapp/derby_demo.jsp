@@ -22,7 +22,7 @@
         <%
             out.println(this.getServletContext().getAttribute("now"));
             out.println("====<br/>");
-            SparkSession spark = SparkLocalServlet.spark;
+            SparkSession spark = SparkSessionPool.POOL.borrowObject();
             final java.util.Properties connectionProperties = new java.util.Properties();
 
             final String dbTable = "t1";
@@ -46,6 +46,7 @@
             }
             jdbcDF.show();
             out.println(baos);
+            SparkSessionPool.POOL.returnObject(spark);
             //out.println("nice "  + ds.first().get(0));
 
         %>

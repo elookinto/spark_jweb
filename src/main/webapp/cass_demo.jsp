@@ -29,7 +29,7 @@
         </pre>
         <%
 
-            SparkSession spark = SparkLocalServlet.spark;
+            SparkSession spark = SparkSessionFactory.spark;
             spark.read().format("org.apache.spark.sql.cassandra")
                     .option("keyspace", "test")
                     .option("table", "cass_test")

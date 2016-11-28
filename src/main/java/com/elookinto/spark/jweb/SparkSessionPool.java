@@ -16,6 +16,7 @@ import org.apache.spark.sql.SparkSession;
  */
 public class SparkSessionPool {
 
+    
     final static GenericObjectPoolConfig config = new GenericObjectPoolConfig();
 
     static {
@@ -32,18 +33,4 @@ public class SparkSessionPool {
     }
 }
 
-class SparkSessionFactory extends BasePooledObjectFactory<SparkSession> {
 
-    @Override
-    public SparkSession create() throws Exception {
-        // TODO Auto-generated method stub
-        return SparkLocalServlet.spark.newSession();
-    }
-
-    @Override
-    public PooledObject<SparkSession> wrap(SparkSession sparkSession) {
-        // TODO Auto-generated method stub
-        return new DefaultPooledObject<SparkSession>(sparkSession);
-    }
-
-}
